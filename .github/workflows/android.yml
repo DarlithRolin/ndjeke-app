@@ -34,7 +34,9 @@ jobs:
           java-version: 21
           cache: gradle
 
-      - uses: android-actions/setup-android@v3
+      # Le SDK Android est préinstallé sur les machines GitHub (ANDROID_HOME) : on accepte seulement les licences.
+      - name: Licences du SDK Android
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
 
       - name: Application web (bundle) et synchronisation Capacitor
         run: |
