@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#5B2E1A">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https: http://127.0.0.1:* http://localhost:*; base-uri 'none'; form-action 'none'">
+<title>GIC Ndjeke</title>
+<link rel="stylesheet" href="styles.css">
+<script src="app.js" defer></script>
+</head>
+<body class="booting">
+<header class="topbar" id="topbar" hidden>
+  <img src="assets/img/gic-ndjeke-symbole-inverse.svg" alt="" width="34" height="34">
+  <h1 id="title">Tableau de bord</h1>
+</header>
+<div class="offline" id="net" hidden role="status">Hors connexion — vos saisies sont gardées sur le téléphone</div>
+
+<main>
+  <!-- Connexion -->
+  <section class="view login" id="view-login" hidden>
+    <div class="login-in">
+      <img class="login-logo" src="assets/img/gic-ndjeke-logo-horizontal-blanc.svg" alt="GIC Ndjeke Prospérité" width="260" height="90">
+      <p class="login-lead">Le carnet de terrain des membres du GIC : suivez les parcelles, les récoltes et les stocks, et saisissez vos activités même sans réseau.</p>
+      <button class="btn btn-or btn-block" id="login-btn" type="button">Se connecter avec farmOS</button>
+      <p class="alert" id="login-msg" hidden role="alert"></p>
+      <p class="login-help">Utilisez l'identifiant et le mot de passe farmOS remis par le bureau du GIC. Pas encore de compte ? <a href="#" data-site="/contact">Contactez le GIC</a>.</p>
+      <p class="login-help"><a href="#" data-site="/">Découvrir le GIC Ndjeke Prospérité</a></p>
+    </div>
+  </section>
+
+  <!-- Tableau de bord -->
+  <section class="view" id="view-tableau" hidden>
+    <div class="row-status"><p class="status" id="dash-status" role="status"></p><button class="btn btn-sm btn-ghost" id="dash-refresh" type="button">Actualiser</button></div>
+    <div id="dash"></div>
+    <button class="btn btn-block fab-like" type="button" data-go="saisie">+ Nouvelle saisie terrain</button>
+  </section>
+
+  <!-- Saisie terrain -->
+  <section class="view" id="view-saisie" hidden>
+    <form class="card form" id="entry" autocomplete="off">
+      <fieldset class="types">
+        <legend>Type de saisie</legend>
+        <label><input type="radio" name="type" value="activity" checked><img class="ico" src="assets/img/icones/icone-cabosse.svg" alt=""><span>Activité</span></label>
+        <label><input type="radio" name="type" value="harvest"><img class="ico" src="assets/img/icones/icone-sac.svg" alt=""><span>Récolte</span></label>
+        <label><input type="radio" name="type" value="input"><img class="ico" src="assets/img/icones/icone-transformation.svg" alt=""><span>Intrant</span></label>
+        <label><input type="radio" name="type" value="observation"><img class="ico" src="assets/img/icones/icone-grain.svg" alt=""><span>Observation</span></label>
+      </fieldset>
+      <div class="field">
+        <label for="what">Quoi ? *</label>
+        <input id="what" name="what" type="text" required maxlength="120" placeholder="Ex. : écabossage, désherbage…" list="what-list">
+        <datalist id="what-list">
+          <option value="Désherbage"><option value="Taille des cacaoyers"><option value="Écabossage"><option value="Fermentation"><option value="Séchage des fèves">
+          <option value="Traitement phytosanitaire"><option value="Récolte de cabosses"><option value="Plantation"><option value="Alimentation des animaux"><option value="Vaccination">
+        </datalist>
+      </div>
+      <div class="field"><label for="when">Date et heure</label><input id="when" name="when" type="datetime-local" required></div>
+      <div class="field"><label for="status">Statut</label><select id="status" name="status"><option value="done">Fait</option><option value="pending">Prévu (à faire)</option></select></div>
+      <div class="field"><label for="land">Parcelle</label><select id="land" name="land"><option value="">— aucune —</option></select></div>
+      <div class="field"><label for="asset">Culture ou animaux</label><select id="asset" name="asset"><option value="">— aucun —</option></select></div>
+      <div class="row2">
+        <div class="field"><label for="qty" id="qty-label">Quantité</label><input id="qty" name="qty" type="text" inputmode="decimal" pattern="[0-9]+([.,][0-9]+)?" title="Nombre, par exemple 42,5"></div>
+        <div class="field"><label for="unit">Unité</label><select id="unit" name="unit"><option value="">—</option></select></div>
+      </div>
+      <div class="field" id="measure-row"><label for="measure">Mesure</label>
+        <select id="measure" name="measure"><option value="weight">Poids</option><option value="count">Nombre</option><option value="volume">Volume</option><option value="area">Surface</option><option value="value">Valeur (FCFA)</option></select></div>
+      <div class="field"><label for="notes">Notes</label><textarea id="notes" name="notes" maxlength="2000" rows="3"></textarea></div>
+      <button class="btn btn-block" type="submit">Enregistrer</button>
+      <p class="small muted" id="ref-info"></p>
+    </form>
+    <section class="card">
+      <h2>À envoyer vers farmOS</h2>
+      <ul class="list queue" id="queue"><li class="muted">Aucune saisie en attente.</li></ul>
+      <div class="actions"><button class="btn btn-sm" type="button" id="sync">Envoyer maintenant</button><button class="btn btn-sm btn-ghost" type="button" id="refresh">Mettre à jour les listes</button></div>
+      <p class="small muted">Les saisies restent sur ce téléphone et partent automatiquement dès que le réseau revient.</p>
+    </section>
+  </section>
+
+  <!-- Le GIC -->
+  <section class="view" id="view-gic" hidden>
+    <div class="hero">
+      <img src="assets/img/gic-ndjeke-logo-horizontal-blanc.svg" alt="GIC Ndjeke Prospérité" width="220" height="76">
+      <p>Groupe d'initiative commune de producteurs de cacao, Ndjeke — Centre, Cameroun.</p>
+    </div>
+    <ul class="menu">
+      <li><a href="#" data-site="/actualites"><img class="ico" src="assets/img/icones/icone-cabosse.svg" alt=""><span>Actualités du GIC<small>Nouvelles, réunions, campagnes</small></span></a></li>
+      <li><a href="#" data-site="/activites"><img class="ico" src="assets/img/icones/icone-vivrier.svg" alt=""><span>Nos activités<small>Cacao, vivrier, élevage, transformation</small></span></a></li>
+      <li><a href="#" data-site="/galerie"><img class="ico" src="assets/img/icones/icone-grain.svg" alt=""><span>Galerie photos</span></a></li>
+      <li><a href="#" data-site="/a-propos"><img class="ico" src="assets/img/icones/icone-sac.svg" alt=""><span>Qui sommes-nous ?</span></a></li>
+    </ul>
+    <section class="card">
+      <h2>Contacter le bureau</h2>
+      <div class="actions"><a class="btn btn-sm" id="tel" href="#">Appeler</a><a class="btn btn-sm btn-ghost" id="wa" href="#">WhatsApp</a></div>
+    </section>
+  </section>
+
+  <!-- Plus -->
+  <section class="view" id="view-plus" hidden>
+    <section class="card"><p id="who"></p><p class="small muted" id="plus-info"></p>
+      <div class="actions"><button class="btn btn-sm btn-ghost" type="button" id="plus-refresh">Mettre à jour les listes</button></div></section>
+    <ul class="menu">
+      <li><a href="#" data-site="/membres/"><span>Espace membres du site<small>Profil, documents du GIC</small></span></a></li>
+      <li><a href="#" data-site="/mentions-legales#application"><span>Confidentialité et mentions légales</span></a></li>
+    </ul>
+    <section class="card">
+      <div class="actions"><button class="btn btn-sm" type="button" id="logout">Se déconnecter</button><button class="btn btn-sm btn-danger" type="button" id="wipe">Effacer les données du téléphone</button></div>
+    </section>
+    <p class="small muted center">GIC Ndjeke Prospérité · application version <span id="version"></span><br>Données agricoles gérées avec farmOS.</p>
+  </section>
+</main>
+
+<nav class="tabs" id="tabs" hidden aria-label="Navigation principale">
+  <button type="button" data-tab="tableau"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Tableau</span></button>
+  <button type="button" data-tab="saisie"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg><span>Saisie</span><b class="badge" id="badge-saisie" hidden>0</b></button>
+  <button type="button" data-tab="gic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19C5 10 11 4 20 4c0 9-6 15-15 15zM5 19l8-8"/></svg><span>Le GIC</span></button>
+  <button type="button" data-tab="plus"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg><span>Plus</span></button>
+</nav>
+<div class="toast" id="toast" hidden role="status"></div>
+</body>
+</html>

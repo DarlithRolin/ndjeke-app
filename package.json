@@ -1,0 +1,23 @@
+{
+  "name": "gic-ndjeke-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Application Android du GIC Ndjeke Prospérité (farmOS)",
+  "scripts": {
+    "build": "esbuild src/main.js --bundle --format=iife --target=es2019 --minify --outfile=www/app.js",
+    "watch": "esbuild src/main.js --bundle --format=iife --target=es2019 --sourcemap --outfile=www/app.js --watch",
+    "sync": "npm run build && npx cap sync android",
+    "icons": "npx @capacitor/assets generate --android --iconBackgroundColor '#5B2E1A' --iconBackgroundColorDark '#5B2E1A' --splashBackgroundColor '#5B2E1A' --splashBackgroundColorDark '#5B2E1A'"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.5.2",
+    "@capacitor/app": "8.1.1",
+    "@capacitor/browser": "8.0.4",
+    "@capacitor/core": "8.5.2"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "3.0.5",
+    "@capacitor/cli": "8.5.2",
+    "esbuild": "0.28.2"
+  }
+}

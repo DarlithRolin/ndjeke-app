@@ -1,0 +1,126 @@
+/* GIC Ndjeke — application mobile. Charte : cacao, or, feuille, ivoire. */
+@font-face{font-family:"Fraunces";font-weight:600;font-display:swap;src:url(assets/fonts/fraunces-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Fraunces";font-weight:700;font-display:swap;src:url(assets/fonts/fraunces-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Source Sans 3";font-weight:400;font-display:swap;src:url(assets/fonts/source-sans-3-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Source Sans 3";font-weight:600;font-display:swap;src:url(assets/fonts/source-sans-3-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Source Sans 3";font-weight:700;font-display:swap;src:url(assets/fonts/source-sans-3-latin-700-normal.woff2) format("woff2")}
+
+:root{
+  --cacao:#5B2E1A; --cacao-2:#6E3B24; --or:#D99A1E; --or-texte:#8A5E0B; --feuille:#3F6B2A;
+  --ivoire:#F6EEDF; --voile:#EBDCCB; --brun:#2A1810; --muted:#6B5343; --line:#DCCBB4; --blanc:#fff; --err:#A3321F;
+  --display:"Fraunces", Georgia, serif; --sans:"Source Sans 3", Arial, sans-serif;
+  --top:var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+  --bottom:var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+  --tabs-h:64px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ivoire);color:var(--brun);font:400 17px/1.5 var(--sans);min-height:100vh;overscroll-behavior-y:none}
+body.booting main{visibility:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--cacao)}
+:focus-visible{outline:3px solid var(--or);outline-offset:2px}
+h1,h2{font-family:var(--display);color:var(--cacao);line-height:1.2;margin:0}
+h2{font-size:20px;font-weight:600;margin-bottom:10px}
+.small{font-size:14px}
+.muted{color:var(--muted)}
+.center{text-align:center}
+
+/* Barre du haut */
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:calc(var(--top) + 10px) 16px 10px;background:var(--cacao);color:var(--ivoire)}
+.topbar h1{font-size:21px;color:var(--ivoire);font-weight:600}
+.topbar img{width:34px;height:34px}
+.offline{position:sticky;top:calc(var(--top) + 54px);z-index:19;background:var(--err);color:#fff;font-size:14px;font-weight:700;padding:6px 16px;text-align:center}
+
+main{padding:14px 14px calc(var(--tabs-h) + var(--bottom) + 24px)}
+.view{max-width:640px;margin:0 auto}
+
+/* Boutons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 18px;border:2px solid var(--cacao);border-radius:6px;background:var(--cacao);color:var(--ivoire);font:700 15px/1 var(--sans);letter-spacing:.05em;text-transform:uppercase;text-decoration:none;cursor:pointer}
+.btn:active{background:var(--brun);border-color:var(--brun)}
+.btn-ghost{background:transparent;color:var(--cacao)}
+.btn-or{background:var(--or);border-color:var(--or);color:var(--brun)}
+.btn-danger{background:var(--err);border-color:var(--err);color:#fff}
+.btn-sm{min-height:42px;padding:8px 14px;font-size:13px}
+.btn-block{display:flex;width:100%}
+.btn[disabled]{opacity:.55}
+.link{background:none;border:0;padding:4px 0;color:var(--cacao);font:inherit;font-size:14px;text-decoration:underline;cursor:pointer}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* Connexion */
+.login{position:fixed;inset:0;overflow:auto;background:var(--cacao) url(assets/img/motif-grains-cacao.svg) center/280px repeat;color:var(--ivoire);padding:calc(var(--top) + 24px) 22px calc(var(--bottom) + 24px);display:flex;align-items:center;max-width:none}
+.login-in{width:100%;max-width:420px;margin:0 auto}
+.login-logo{width:260px;margin:0 auto 26px}
+.login-lead{font-size:18px;margin:0 0 26px;text-align:center}
+.login-help{font-size:15px;text-align:center;margin:18px 0 0;color:#EBDCCB}
+.login-help a{color:var(--or)}
+.login .alert{margin:16px 0 0;background:#F6DDD7;color:#7A2415;border-radius:6px;padding:10px 12px;font-size:15px}
+
+/* Cartes et listes */
+.card{background:var(--blanc);border:1px solid var(--line);border-radius:12px;padding:16px;margin:0 0 14px}
+.card p{margin:0 0 10px}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:10px 0;border-top:1px solid var(--voile);font-size:16px}
+.list li:first-child{border-top:0;padding-top:0}
+.list small{color:var(--muted);font-size:14px;text-align:right;flex-shrink:0;max-width:50%}
+.list li>span{min-width:0;overflow-wrap:anywhere}
+.queue li small{text-align:left;max-width:none}
+.q-side{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;background:var(--voile);color:var(--cacao)}
+.pill.ok{background:#E3EDD9;color:#2E5020}
+.pill.warn{background:#FBEFD2;color:#6E4A05}
+.pill.err{background:#F6DDD7;color:#7A2415}
+
+/* Tableau de bord */
+.row-status{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.status{margin:0;font-size:14px;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--cacao);color:var(--ivoire);border-radius:12px;padding:14px}
+.kpi strong{display:block;font:700 32px/1 var(--display);color:var(--or)}
+.kpi span{font-size:14px}
+.chart{display:flex;align-items:flex-end;gap:8px;height:150px;padding-top:18px}
+.chart .b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:12px;color:var(--muted)}
+.chart i{display:block;width:100%;max-width:36px;min-height:2px;background:var(--feuille);border-radius:4px 4px 0 0}
+.chart em{font-style:normal;font-weight:700;color:var(--cacao);font-size:13px}
+.chart span{margin-top:4px}
+[aria-busy=true]{opacity:.6}
+.fab-like{margin-top:6px}
+
+/* Formulaire */
+.form{display:grid;gap:12px}
+.field{display:grid;gap:4px}
+.field label,.types legend{font-weight:700;font-size:15px}
+input,select,textarea{width:100%;min-height:48px;padding:10px 12px;border:1px solid #B9A58E;border-radius:6px;background:#fff;color:var(--brun);font:inherit}
+textarea{min-height:88px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--cacao);outline:2px solid var(--or);outline-offset:0}
+.row2{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:10px}
+.row2 input,.row2 select{min-width:0}
+.types{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;border:0;padding:0;margin:0}
+.types legend{margin-bottom:6px;padding:0}
+.types label{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border:2px solid var(--line);border-radius:12px;background:#fff;font-weight:700;font-size:15px}
+.types input{position:absolute;opacity:0;width:1px;height:1px;min-height:0}
+.types label:has(input:checked){border-color:var(--cacao);background:#FBF6EE}
+.types label:has(input:focus-visible){outline:3px solid var(--or)}
+.ico{width:34px;height:34px}
+
+/* Le GIC */
+.hero{background:var(--cacao) url(assets/img/motif-grains-cacao.svg) center/240px repeat;color:var(--ivoire);border-radius:12px;padding:22px 18px;margin-bottom:14px}
+.hero img{width:220px;margin-bottom:12px}
+.hero p{margin:0}
+.menu{list-style:none;margin:0 0 14px;padding:0;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.menu li+li{border-top:1px solid var(--voile)}
+.menu a{display:flex;align-items:center;gap:14px;padding:14px 16px;min-height:56px;text-decoration:none;color:var(--brun);font-weight:700}
+.menu a::after{content:"›";margin-left:auto;font-size:24px;color:var(--muted)}
+.menu small{display:block;font-weight:400;color:var(--muted);font-size:14px}
+
+/* Onglets */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:1px solid var(--line);padding-bottom:var(--bottom)}
+.tabs button{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:var(--tabs-h);border:0;background:none;color:var(--muted);font:600 13px/1 var(--sans);cursor:pointer}
+.tabs svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tabs circle{fill:currentColor;stroke:none}
+.tabs [aria-current=page]{color:var(--cacao)}
+.tabs [aria-current=page]::before{content:"";position:absolute;top:0;left:25%;right:25%;height:3px;background:var(--or);border-radius:0 0 3px 3px}
+.badge{position:absolute;top:8px;left:calc(50% + 6px);min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--err);color:#fff;font:700 12px/20px var(--sans)}
+
+.toast{position:fixed;left:16px;right:16px;bottom:calc(var(--tabs-h) + var(--bottom) + 14px);z-index:40;max-width:520px;margin:0 auto;background:var(--brun);color:var(--ivoire);border-radius:8px;padding:12px 14px;font-size:15px;box-shadow:0 6px 20px rgba(0,0,0,.25)}

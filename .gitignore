@@ -1,0 +1,8 @@
+node_modules/
+www/app.js
+www/app.js.map
+dev/shots/
+*.jks
+*.keystore
+keystore*.txt
+.DS_Store
